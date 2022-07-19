@@ -18,7 +18,7 @@ else validate success
     bff->db: query find role
  
     alt check role exits
-       bff<-db: return role
+       bff<-db: return role exits
         fe<--bff: message role already exist
     else 
        bff<-db: return role does not exist

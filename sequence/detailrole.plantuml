@@ -8,10 +8,10 @@ user->fe
 fe -> bff : GET /roleid
 bff -> db : select roleid
 alt fail
-bff <-- db : return fail
+bff <-- db : return role dose not exits
 fe <-- bff : return message fail
 else success
-bff <-- db : return role
+bff <-- db : return role already exits
 fe <-- bff : return role
 end
 
