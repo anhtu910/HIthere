@@ -1,0 +1,30 @@
+@startuml create role
+
+actor User as user
+participant Frontend as fe
+participant BFF as bff
+database Database as db
+
+
+
+user->fe
+fe->bff: PUT /update
+bff->db: query find role
+    alt role does not exist
+       bff<-db: return role does not exist
+        fe<--bff: return message role does not exist
+    else 
+       bff<-db: return role already exist
+        bff -> db : update role
+        alt fail
+        bff <- db :update role fail
+        bff->fe: return message fail
+        else
+        bff <- db :update role success
+        bff->fe: update role success
+        end
+    end
+
+ 
+   
+

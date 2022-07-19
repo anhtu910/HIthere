@@ -1,0 +1,18 @@
+@startuml Create Edit User
+actor User as user
+participant Frontend as fe
+participant BFF as bff
+database Database as db
+
+user->fe
+fe -> bff : GET /roleid
+bff -> db : select roleid
+alt fail
+bff <-- db : return fail
+fe <-- bff : return message fail
+else success
+bff <-- db : return role
+fe <-- bff : return role
+end
+
+@enduml

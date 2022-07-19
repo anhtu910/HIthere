@@ -1,0 +1,34 @@
+@startuml create role
+
+actor User as user
+participant Frontend as fe
+participant BFF as bff
+database Database as db
+
+
+
+user->fe
+fe->bff: POST /create
+bff->bff: Data validation
+alt validate
+    fe <-- bff : return fail
+   
+else validate success
+ 
+    bff->db: query find role
+ 
+    alt check role exits
+       bff<-db: return role
+        fe<--bff: message role already exist
+    else 
+       bff<-db: return role does not exist
+        bff -> db : insert role
+        alt fail
+        bff <- db :insert role fail
+        bff->fe: return message fail
+        else
+        bff <- db :insert role success
+        bff->fe: create role success
+        end
+    end
+end

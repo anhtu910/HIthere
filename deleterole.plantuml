@@ -1,0 +1,30 @@
+@startuml create role
+
+actor User as user
+participant Frontend as fe
+participant BFF as bff
+database Database as db
+
+
+
+user->fe
+fe->bff: DELETE /delete
+bff->db: query find role
+    alt role does not exist
+       bff<-db: return role does not exist
+        fe<--bff: return message role does not exist
+    else 
+       bff<-db: return role already exist
+        bff -> db : delete role
+        alt fail
+        bff <- db :delete role fail
+        bff->fe: return message fail
+        else
+        bff <- db :delete role success
+        bff->fe: delete role success
+        end
+    end
+
+ 
+   
+

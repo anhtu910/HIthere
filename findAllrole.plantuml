@@ -1,0 +1,20 @@
+@startuml find all roles
+actor User as user
+participant Frontend as fe
+participant BFF as bff
+database Database as db
+
+
+user->fe
+fe -> bff : GET /roles
+bff -> db : select roles
+alt fail
+bff <-- db : return fail
+fe <-- bff : return message fail
+else success
+bff <-- db : return roles
+fe <-- bff : return roles
+end
+
+
+@enduml
